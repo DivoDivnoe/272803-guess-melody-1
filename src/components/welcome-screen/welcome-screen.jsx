@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const WelcomeScreen = (props) => {
-  const {gameTime, mistakesCount} = props;
+  const {gameTime, mistakesCount, clickHandler} = props;
 
   return (
     <section className="welcome">
       <div className="welcome__logo">
         <img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83" />
       </div>
-      <button className="welcome__button">
+      <button className="welcome__button" onClick={clickHandler}>
         <span className="visually-hidden">Начать игру</span>
       </button>
       <h2 className="welcome__rules-title">Правила игры</h2>
@@ -26,6 +26,7 @@ const WelcomeScreen = (props) => {
 WelcomeScreen.propTypes = {
   gameTime: PropTypes.number.isRequired,
   mistakesCount: PropTypes.number.isRequired,
+  clickHandler: PropTypes.func.isRequired,
 };
 
 export default WelcomeScreen;
