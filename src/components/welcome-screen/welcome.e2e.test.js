@@ -16,6 +16,6 @@ describe(`WelcomeScreen component`, () => {
     welcomeScreen.find(`.welcome__button`).simulate(`click`);
 
     expect(clickHandler).toHaveBeenCalled();
-    expect(clickHandler).toHaveBeenCalledWith();
+    expect(clickHandler).toHaveBeenCalledTimes(1);
   });
 });
