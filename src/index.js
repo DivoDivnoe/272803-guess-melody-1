@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './components/app/app.jsx';
 
 const configs = {
-  gameTime: 5,
-  mistakesCount: 3,
+  gameTime: 7,
+  mistakesCount: 4,
 };
 
 const init = () => {
