@@ -9,8 +9,8 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  gameTime: PropTypes.number,
-  mistakesCount: PropTypes.number,
+  gameTime: PropTypes.number.isRequired,
+  mistakesCount: PropTypes.number.isRequired,
 };
 
 export default App;
