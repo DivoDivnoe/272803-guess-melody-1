@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 const App = (props) => {
   const {gameTime, mistakesCount} = props;
 
-  const clickHandler = (evt) => {
-    evt.target.style.borderLeftColor = `blue`;
-  };
+  const clickHandler = () => {};
 
   return (
     <WelcomeScreen gameTime={gameTime} mistakesCount={mistakesCount} clickHandler={clickHandler} />
