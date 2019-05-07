@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 const App = (props) => {
   const {gameTime, mistakesCount} = props;
 
-  return <WelcomeScreen gameTime={gameTime} mistakesCount={mistakesCount} />;
+  const clickHandler = () => {};
+
+  return (
+    <WelcomeScreen gameTime={gameTime} mistakesCount={mistakesCount} clickHandler={clickHandler} />
+  );
 };
 
 App.propTypes = {
