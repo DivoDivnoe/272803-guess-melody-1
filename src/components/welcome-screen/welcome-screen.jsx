@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const WelcomeScreen = (props) => {
-  const {gameTime, mistakesCount, clickHandler} = props;
+  const {settings, clickHandler} = props;
+  const {gameTime, mistakesCount} = settings;
 
   return (
     <section className="welcome">
@@ -24,8 +25,10 @@ const WelcomeScreen = (props) => {
 };
 
 WelcomeScreen.propTypes = {
-  gameTime: PropTypes.number.isRequired,
-  mistakesCount: PropTypes.number.isRequired,
+  settings: PropTypes.shape({
+    gameTime: PropTypes.number.isRequired,
+    mistakesCount: PropTypes.number.isRequired,
+  }).isRequired,
   clickHandler: PropTypes.func.isRequired,
 };
 
