@@ -7,30 +7,30 @@ export default {
   questions: [
     {
       type: `genre`,
-      genre: `jazz`,
+      genre: `rock`,
       answers: [
         {
-          src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
-          genre: `jazz`,
+          src: `/audio/Aretha_Franklin-Today_I_Sing_the_Blues.mp3`,
+          genre: `blues`,
         },
         {
-          src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
+          src: `/audio/Radiohead-Creep.mp3`,
           genre: `rock`,
         },
         {
-          src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
+          src: `/audio/Lana_Del_Rey-Without_You.mp3`,
           genre: `pop`,
         },
         {
-          src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
-          genre: `jazz`,
+          src: `/audio/Sum41-With_Me.mp3`,
+          genre: `rock`,
         },
       ],
     },
     {
       type: `artist`,
       audio: {
-        src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
+        src: `/audio/Nikolay_Baskov-Sharmanka.mp3`,
         artist: `Nikolay Baskov`,
       },
       answers: [
