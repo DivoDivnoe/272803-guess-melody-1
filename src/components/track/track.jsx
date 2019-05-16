@@ -46,14 +46,6 @@ class Track extends PureComponent {
     };
   }
 
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   if (nextProps.isPlaying !== prevState.isPlaying) {
-  //     return {isPlaying: nextProps.isPlaying};
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
   componentDidUpdate() {
     const audio = this._audioRef.current;
 
