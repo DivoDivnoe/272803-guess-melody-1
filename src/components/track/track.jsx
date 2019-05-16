@@ -7,6 +7,8 @@ class Track extends PureComponent {
 
     const {isPlaying} = props;
 
+    this._audioRef = React.createRef();
+
     this.state = {
       isLoading: true,
       isPlaying,
@@ -17,54 +19,59 @@ class Track extends PureComponent {
 
   componentDidMount() {
     const {src} = this.props;
+    const audio = this._audioRef.current;
 
-    this._audio = new Audio(src);
-    this._audio.oncanplaythrough = () => {
+    audio.src = src;
+
+    audio.oncanplaythrough = () => {
       this.setState({
         isLoading: false,
-        progress: this._audio.currentTime,
+        progress: audio.currentTime,
       });
     };
-    this._audio.ontimeupdate = () => {
+    audio.ontimeupdate = () => {
       this.setState({
-        progress: this._audio.currentTime,
+        progress: audio.currentTime,
       });
     };
-    this._audio.onplay = () => {
+    audio.onplay = () => {
       this.setState({
         isPlaying: true,
       });
     };
-    this._audio.onpause = () => {
+    audio.onpause = () => {
       this.setState({
         isPlaying: false,
       });
     };
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.isPlaying !== prevState.isPlaying) {
-      return {isPlaying: nextProps.isPlaying};
-    } else {
-      return null;
-    }
-  }
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   if (nextProps.isPlaying !== prevState.isPlaying) {
+  //     return {isPlaying: nextProps.isPlaying};
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   componentDidUpdate() {
-    if (this.state.isPlaying) {
-      this._audio.play();
+    const audio = this._audioRef.current;
+
+    if (this.props.isPlaying) {
+      audio.play();
     } else {
-      this._audio.pause();
+      audio.pause();
     }
   }
 
   componentWillUnmount() {
-    this._audio.oncanplaythrough = null;
-    this._audio.ontimeupdate = null;
-    this._audio.onplay = null;
-    this._audio.onpause = null;
-    this._audio.src = ``;
-    this._audio = null;
+    const audio = this._audioRef.current;
+
+    audio.oncanplaythrough = null;
+    audio.ontimeupdate = null;
+    audio.onplay = null;
+    audio.onpause = null;
+    audio.src = ``;
   }
 
   render() {
@@ -77,9 +84,9 @@ class Track extends PureComponent {
           type="button"
           disabled={isLoading}
           onClick={this._handleClick}
-        ></button>
+        />
         <div className="track__status">
-          <audio ></audio>
+          <audio ref={this._audioRef} />
         </div>
       </div>
     );

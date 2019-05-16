@@ -13,7 +13,10 @@ describe(`Track component`, () => {
     const {src, clickHandler, isPlaying} = mock;
 
     const tree = renderer.create(
-        <Track src={src} clickHandler={clickHandler} isPlaying={isPlaying} />
+        <Track src={src} clickHandler={clickHandler} isPlaying={isPlaying} />,
+        {createNodeMock: (el) => {
+          return el;
+        }}
     ).toJSON();
 
     expect(tree).toMatchSnapshot();
