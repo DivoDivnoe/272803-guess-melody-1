@@ -63,14 +63,14 @@ class GuessArtistScreen extends PureComponent {
           />
 
           <form className="game__artist" onChange={handleAnswer}>
-            {answers.map(({artist, picture}) => (
+            {answers.map(({artist, picture}, index) => (
               <div className="artist" key={artist}>
                 <input
                   className="artist__input visually-hidden"
                   type="radio"
                   name="answer"
                   value={artist}
-                  id="answer-1"
+                  id={`answer-${index}`}
                 />
                 <label className="artist__name" htmlFor="answer-1">
                   <img className="artist__picture" src={picture} alt={artist} />
