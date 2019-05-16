@@ -27,7 +27,10 @@ const mock = {
 describe(`GuessArtistScreen component`, () => {
   it(`renders correctly`, () => {
     const tree = renderer.create(
-        <GuessGenreScreen question={mock.question} submitHandler={mock.submitHandler} />
+        <GuessGenreScreen question={mock.question} submitHandler={mock.submitHandler} />,
+        {createNodeMock: (el) => {
+          return el;
+        }}
     ).toJSON();
 
     expect(tree).toMatchSnapshot();
