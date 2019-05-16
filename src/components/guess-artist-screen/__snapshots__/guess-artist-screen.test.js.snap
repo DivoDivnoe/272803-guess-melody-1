@@ -107,7 +107,7 @@ exports[`GuessArtistScreen component renders correctly 1`] = `
       >
         <input
           className="artist__input visually-hidden"
-          id="answer-1"
+          id="answer-0"
           name="answer"
           type="radio"
           value="Kotan Boryan"
@@ -151,7 +151,7 @@ exports[`GuessArtistScreen component renders correctly 1`] = `
       >
         <input
           className="artist__input visually-hidden"
-          id="answer-1"
+          id="answer-2"
           name="answer"
           type="radio"
           value="Goofy"
