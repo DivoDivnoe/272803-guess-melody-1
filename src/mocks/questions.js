@@ -28,6 +28,28 @@ export default {
       ],
     },
     {
+      type: `genre`,
+      genre: `pop`,
+      answers: [
+        {
+          src: `/audio/Aretha_Franklin-Today_I_Sing_the_Blues.mp3`,
+          genre: `blues`,
+        },
+        {
+          src: `/audio/Radiohead-Creep.mp3`,
+          genre: `rock`,
+        },
+        {
+          src: `/audio/Lana_Del_Rey-Without_You.mp3`,
+          genre: `pop`,
+        },
+        {
+          src: `/audio/Sum41-With_Me.mp3`,
+          genre: `rock`,
+        },
+      ],
+    },
+    {
       type: `artist`,
       audio: {
         src: `/audio/Nikolay_Baskov-Sharmanka.mp3`,

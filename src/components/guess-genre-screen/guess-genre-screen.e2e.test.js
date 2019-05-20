@@ -24,25 +24,24 @@ const mock = {
         genre: `blues`,
       }
     ],
-  }
+  },
+  mistakes: 10,
 };
 
-describe(`GuessArtistScreen component`, () => {
+describe(`GuessGenreScreen component`, () => {
   it(`reacts correctly to clicking the artist image`, () => {
     const screen = shallow(
-        <GuessGenreScreen question={mock.question} submitHandler={mock.submitHandler} />
+        <GuessGenreScreen
+          question={mock.question}
+          submitHandler={mock.submitHandler}
+          mistakes={mock.mistakes}
+        />
     );
 
     const formSubmitPrevention = jest.fn();
 
-    const form = screen.find(`form`);
-    const inputs = [...form.find(`input`)];
-
-    form.simulate(`submit`, {
+    screen.find(`form`).simulate(`submit`, {
       preventDefault: formSubmitPrevention,
-      target: {
-        elements: inputs,
-      },
     });
 
     expect(mock.submitHandler).toHaveBeenCalledTimes(1);

@@ -21,13 +21,18 @@ const mock = {
         genre: `blues`,
       }
     ],
-  }
+  },
+  mistakes: 5,
 };
 
-describe(`GuessArtistScreen component`, () => {
+describe(`GuessGenreScreen component`, () => {
   it(`renders correctly`, () => {
     const tree = renderer.create(
-        <GuessGenreScreen question={mock.question} submitHandler={mock.submitHandler} />,
+        <GuessGenreScreen
+          question={mock.question}
+          submitHandler={mock.submitHandler}
+          mistakes={mock.mistakes}
+        />,
         {createNodeMock: (el) => {
           return el;
         }}

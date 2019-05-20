@@ -27,13 +27,18 @@ const mock = {
         artist: `Goofy`,
       }
     ],
-  }
+  },
+  mistakes: 2,
 };
 
 describe(`GuessArtistScreen component`, () => {
   it(`reacts correctly to clicking the artist image`, () => {
     const screen = shallow(
-        <GuessArtistScreen question={mock.question} submitHandler={mock.submitHandler} />
+        <GuessArtistScreen
+          question={mock.question}
+          submitHandler={mock.submitHandler}
+          mistakes={mock.mistakes}
+        />
     );
 
     const form = screen.find(`form`);

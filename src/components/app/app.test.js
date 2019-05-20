@@ -1,39 +1,55 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import App from './app.jsx';
+import {App} from './app.jsx';
 
-const settings = {
-  gameTime: 10,
-  mistakesCount: 10,
-};
-
-const questions = [
-  {
-    type: `artist`,
-    audio: {
-      src: ``,
-      artist: `Kotan Vasily`,
-    },
-    answers: [
-      {
-        picture: ``,
+const mocks = {
+  questions: [
+    {
+      type: `artist`,
+      audio: {
+        src: ``,
         artist: `Kotan Vasily`,
       },
-      {
-        picture: ``,
-        artist: `Sobaken Polkan`,
-      },
-      {
-        picture: ``,
-        artist: `Popugay Yashka`,
-      },
-    ],
-  }
-];
+      answers: [
+        {
+          picture: ``,
+          artist: `Kotan Vasily`,
+        },
+        {
+          picture: ``,
+          artist: `Sobaken Polkan`,
+        },
+        {
+          picture: ``,
+          artist: `Popugay Yashka`,
+        },
+      ],
+    }
+  ],
+  settings: {
+    gameTime: 10,
+    mistakesCount: 10,
+  },
+  step: 1,
+  mistakes: 1,
+  userAnswerHandler: jest.fn(),
+  resetGame: jest.fn(),
+};
 
 describe(`App component`, () => {
+  const {settings, questions, step, mistakes, userAnswerHandler, resetGame} = mocks;
+
   it(`renders correctly`, () => {
-    const element = renderer.create(<App settings={settings} questions={questions} />).toJSON();
+    const element = renderer.create(
+        <App
+          settings={settings}
+          questions={questions}
+          step={step}
+          mistakes={mistakes}
+          userAnswerHandler={userAnswerHandler}
+          resetGame={resetGame}
+        />
+    ).toJSON();
 
     expect(element).toMatchSnapshot();
   });

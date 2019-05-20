@@ -24,13 +24,18 @@ const mock = {
         artist: `Goofy`,
       }
     ],
-  }
+  },
+  mistakes: 3,
 };
 
 describe(`GuessArtistScreen component`, () => {
   it(`renders correctly`, () => {
     const tree = renderer.create(
-        <GuessArtistScreen question={mock.question} submitHandler={mock.submitHandler} />,
+        <GuessArtistScreen
+          question={mock.question}
+          submitHandler={mock.submitHandler}
+          mistakes={mock.mistakes}
+        />,
         {createNodeMock: (el) => {
           return el;
         }}
