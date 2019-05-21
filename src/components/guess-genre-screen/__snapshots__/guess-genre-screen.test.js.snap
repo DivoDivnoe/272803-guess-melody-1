@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GuessArtistScreen component renders correctly 1`] = `
+exports[`GuessGenreScreen component renders correctly 1`] = `
 <section
   className="game game--genre"
 >
@@ -73,6 +73,12 @@ exports[`GuessArtistScreen component renders correctly 1`] = `
       <div
         className="wrong"
       />
+      <div
+        className="wrong"
+      />
+      <div
+        className="wrong"
+      />
     </div>
   </header>
   <section
@@ -114,6 +120,7 @@ exports[`GuessArtistScreen component renders correctly 1`] = `
             className="game__input visually-hidden"
             id="answer-0"
             name="answer"
+            onChange={[Function]}
             type="checkbox"
             value="pop"
           />
@@ -150,6 +157,7 @@ exports[`GuessArtistScreen component renders correctly 1`] = `
             className="game__input visually-hidden"
             id="answer-1"
             name="answer"
+            onChange={[Function]}
             type="checkbox"
             value="rock"
           />
@@ -186,6 +194,7 @@ exports[`GuessArtistScreen component renders correctly 1`] = `
             className="game__input visually-hidden"
             id="answer-2"
             name="answer"
+            onChange={[Function]}
             type="checkbox"
             value="blues"
           />

@@ -114,7 +114,7 @@ exports[`GuessArtistScreen component renders correctly 1`] = `
         />
         <label
           className="artist__name"
-          htmlFor="answer-1"
+          htmlFor="answer-0"
         >
           <img
             alt="Kotan Boryan"
@@ -158,7 +158,7 @@ exports[`GuessArtistScreen component renders correctly 1`] = `
         />
         <label
           className="artist__name"
-          htmlFor="answer-1"
+          htmlFor="answer-2"
         >
           <img
             alt="Goofy"

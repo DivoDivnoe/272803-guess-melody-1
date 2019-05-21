@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Track from '../track/track.jsx';
+import MistakesView from '../mistakes-view/mistakes-view.jsx';
 
 class GuessArtistScreen extends PureComponent {
   constructor(props) {
@@ -12,7 +13,7 @@ class GuessArtistScreen extends PureComponent {
   }
 
   render() {
-    const {question, submitHandler} = this.props;
+    const {question, submitHandler, mistakes} = this.props;
     const {answers, audio} = question;
 
     const handleAnswer = (evt) => {
@@ -45,11 +46,7 @@ class GuessArtistScreen extends PureComponent {
             <span className="timer__secs">00</span>
           </div>
 
-          <div className="game__mistakes">
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-          </div>
+          <MistakesView mistakes={mistakes} />
         </header>
 
         <section className="game__screen">
@@ -72,7 +69,7 @@ class GuessArtistScreen extends PureComponent {
                   value={artist}
                   id={`answer-${index}`}
                 />
-                <label className="artist__name" htmlFor="answer-1">
+                <label className="artist__name" htmlFor={`answer-${index}`}>
                   <img className="artist__picture" src={picture} alt={artist} />
                   {artist}
                 </label>
@@ -98,6 +95,7 @@ GuessArtistScreen.propTypes = {
     }).isRequired,
   }).isRequired,
   submitHandler: PropTypes.func.isRequired,
+  mistakes: PropTypes.number.isRequired,
 };
 
 export default GuessArtistScreen;

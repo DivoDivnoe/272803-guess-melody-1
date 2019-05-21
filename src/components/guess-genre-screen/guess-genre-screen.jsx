@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Track from '../track/track.jsx';
+import MistakesView from '../mistakes-view/mistakes-view.jsx';
 
 class GuessGenreScreen extends PureComponent {
   constructor(props) {
@@ -8,13 +9,14 @@ class GuessGenreScreen extends PureComponent {
 
     this.state = {
       currentTrack: null,
+      userAnswer: Array.from({length: props.question.answers.length}, () => false)
     };
 
     this._handleAnswer = this._handleAnswer.bind(this);
   }
 
   render() {
-    const {question} = this.props;
+    const {question, mistakes} = this.props;
     const {answers, genre} = question;
 
     return (
@@ -41,11 +43,7 @@ class GuessGenreScreen extends PureComponent {
             <span className="timer__secs">00</span>
           </div>
 
-          <div className="game__mistakes">
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-          </div>
+          <MistakesView mistakes={mistakes} />
         </header>
 
         <section className="game__screen">
@@ -68,6 +66,12 @@ class GuessGenreScreen extends PureComponent {
                     name="answer"
                     value={answer.genre}
                     id={`answer-${index}`}
+                    onChange={() => {
+                      const userAnswer = this.state.userAnswer.slice();
+                      userAnswer[index] = !userAnswer[index];
+
+                      this.setState({userAnswer});
+                    }}
                   />
                   <label className="game__check" htmlFor={`answer-${index}`}>Отметить</label>
                 </div>
@@ -83,11 +87,7 @@ class GuessGenreScreen extends PureComponent {
   _handleAnswer(evt) {
     evt.preventDefault();
 
-    const chosenGenres = [...evt.target.elements]
-      .filter((element) => element.checked)
-      .map((element) => element.value);
-
-    this.props.submitHandler(chosenGenres);
+    this.props.submitHandler(this.state.userAnswer);
   }
 }
 
@@ -101,6 +101,7 @@ GuessGenreScreen.propTypes = {
       genre: PropTypes.oneOf([`rock`, `jazz`, `pop`, `blues`, `indie`]),
     })).isRequired,
   }).isRequired,
+  mistakes: PropTypes.number.isRequired,
 };
 
 export default GuessGenreScreen;
