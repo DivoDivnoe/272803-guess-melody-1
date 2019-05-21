@@ -34,10 +34,11 @@ const mocks = {
   mistakes: 1,
   userAnswerHandler: jest.fn(),
   resetGame: jest.fn(),
+  checkGameStatus: jest.fn()
 };
 
 describe(`App component`, () => {
-  const {settings, questions, step, mistakes, userAnswerHandler, resetGame} = mocks;
+  const {settings, questions, step, mistakes, userAnswerHandler, resetGame, checkGameStatus} = mocks;
 
   it(`renders correctly`, () => {
     const element = renderer.create(
@@ -48,6 +49,7 @@ describe(`App component`, () => {
           mistakes={mistakes}
           userAnswerHandler={userAnswerHandler}
           resetGame={resetGame}
+          checkGameStatus={checkGameStatus}
         />
     ).toJSON();
 

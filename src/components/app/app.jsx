@@ -12,17 +12,20 @@ class App extends PureComponent {
   }
 
   render() {
-    const {questions, step, userAnswerHandler} = this.props;
+    const {questions, step, userAnswerHandler, settings, checkGameStatus, mistakes} = this.props;
 
     return this._getScreen(questions[step], (userAnswer) => {
       userAnswerHandler(questions[step], userAnswer);
+      checkGameStatus(settings.mistakes, questions.length, mistakes, step);
     });
   }
 
   _getScreen(question, userAnswerHandler) {
     const {settings, mistakes} = this.props;
 
-    if (!question) {
+    if (!question || mistakes >= settings.mistakes) {
+      this.props.resetGame();
+
       return (
         <WelcomeScreen settings={settings} clickHandler={userAnswerHandler} />
       );
@@ -85,6 +88,7 @@ App.propTypes = {
   mistakes: PropTypes.number.isRequired,
   userAnswerHandler: PropTypes.func.isRequired,
   resetGame: PropTypes.func.isRequired,
+  checkGameStatus: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, state);
@@ -93,6 +97,11 @@ const mapDispatchToProps = (dispatch) => {
     userAnswerHandler: (question, userAnswer) => {
       dispatch(ActionCreator[`INCREMENT_STEP`]());
       dispatch(ActionCreator[`INCREMENT_MISTAKES`](question, userAnswer));
+    },
+    checkGameStatus: (gameMistakes, numberOfquestions, currentMistakes, currentStep) => {
+      if (currentMistakes >= gameMistakes || currentStep >= numberOfquestions) {
+        dispatch(ActionCreator[`RESET_STATE`]());
+      }
     },
     resetGame: () => {
       dispatch(ActionCreator[`RESET_STATE`]());
