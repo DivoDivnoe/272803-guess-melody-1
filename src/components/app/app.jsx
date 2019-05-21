@@ -14,18 +14,17 @@ class App extends PureComponent {
   render() {
     const {questions, step, userAnswerHandler, settings, checkGameStatus, mistakes} = this.props;
 
+    checkGameStatus(settings.mistakes, questions.length, mistakes, step);
+
     return this._getScreen(questions[step], (userAnswer) => {
       userAnswerHandler(questions[step], userAnswer);
-      checkGameStatus(settings.mistakes, questions.length, mistakes, step);
     });
   }
 
   _getScreen(question, userAnswerHandler) {
     const {settings, mistakes} = this.props;
 
-    if (!question || mistakes >= settings.mistakes) {
-      this.props.resetGame();
-
+    if (!question) {
       return (
         <WelcomeScreen settings={settings} clickHandler={userAnswerHandler} />
       );
