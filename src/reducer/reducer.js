@@ -40,6 +40,10 @@ const ActionCreator = {
   RESET_STATE: () => ({type: `RESET_STATE`}),
 };
 
+export const checkIsGameOver = (gameMistakes, numberOfquestions, currentMistakes, currentStep) => {
+  return currentMistakes >= gameMistakes || currentStep >= numberOfquestions;
+};
+
 export const reducer = (state = initialState, action) => {
   const {type, payload} = action;
 

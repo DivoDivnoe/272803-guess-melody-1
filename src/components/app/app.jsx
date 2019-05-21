@@ -4,7 +4,7 @@ import GuessGenreScreen from '../guess-genre-screen/guess-genre-screen.jsx';
 import GuessArtistScreen from '../guess-artist-screen/guess-artist-screen.jsx';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import ActionCreator from '../../reducer';
+import ActionCreator, {checkIsGameOver} from '../../reducer/reducer';
 
 class App extends PureComponent {
   constructor(props) {
@@ -98,7 +98,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(ActionCreator[`INCREMENT_MISTAKES`](question, userAnswer));
     },
     checkGameStatus: (gameMistakes, numberOfquestions, currentMistakes, currentStep) => {
-      if (currentMistakes >= gameMistakes || currentStep >= numberOfquestions) {
+      if (checkIsGameOver(gameMistakes, numberOfquestions, currentMistakes, currentStep)) {
         dispatch(ActionCreator[`RESET_STATE`]());
       }
     },
