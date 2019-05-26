@@ -1,38 +1,36 @@
 import React from 'react';
-import Enzyme, {mount} from 'enzyme';
+import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Track from './track.jsx';
 
 Enzyme.configure({adapter: new Adapter()});
 
 const mock = {
-  src: ``,
+  renderPlayer: jest.fn(),
   clickHandler: jest.fn(),
   isPlaying: false,
+  isLoading: true,
 };
 
 describe(`Track component`, () => {
-  it(`renders correctly`, () => {
-    const {src, clickHandler, isPlaying} = mock;
+  it(`reacts correctly to clicking the button`, () => {
+    const {isLoading, clickHandler, isPlaying, renderPlayer} = mock;
 
-    const track = mount(
-        <Track src={src} clickHandler={clickHandler} isPlaying={isPlaying} />
+    const track = shallow(
+        <Track
+          isLoading={isLoading}
+          clickHandler={clickHandler}
+          isPlaying={isPlaying}
+          renderPlayer={renderPlayer}
+        />
     );
-
-    track.instance()._audioRef.current.pause = () => {};
-    track.instance()._audioRef.current.play = () => {};
 
     expect(track.find(`button`).prop(`disabled`)).toEqual(true);
 
-    track.setState({
-      isLoading: false
-    });
+    track.setProps({isLoading: false});
     expect(track.find(`button`).prop(`disabled`)).toEqual(false);
 
     track.find(`button`).simulate(`click`);
-    expect(track.find(`button`).hasClass(`track__button--pause`)).toBe(true);
-
-    track.find(`button`).simulate(`click`);
-    expect(track.find(`button`).hasClass(`track__button--play`)).toBe(true);
+    expect(clickHandler).toHaveBeenCalledTimes(1);
   });
 });

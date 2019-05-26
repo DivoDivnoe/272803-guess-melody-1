@@ -5,6 +5,21 @@ import GuessArtistScreen from '../guess-artist-screen/guess-artist-screen.jsx';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ActionCreator, {checkIsGameOver} from '../../reducer/reducer';
+import withPlaying from '../../hocs/with-playing/with-playing.js';
+import withUserAnswer from '../../hocs/with-user-answer/with-user-answer.js';
+import withCurrentTrack from '../../hocs/with-current-track/with-current-track.js';
+import withTransformProps from '../../hocs/with-transform-props/with-transform-props.js';
+
+const transformPlayerToAnswer = (props) => {
+  const newProps = Object.assign({}, props, {
+    renderAnswer: props.renderPlayer,
+  });
+  delete newProps.renderPlayer;
+  return newProps;
+};
+
+const GuessArtistScreenWrapped = withPlaying(withTransformProps(transformPlayerToAnswer)(GuessArtistScreen));
+const GuessGenreScreenWrapped = withUserAnswer(withCurrentTrack(withTransformProps(transformPlayerToAnswer)(GuessGenreScreen)));
 
 class App extends PureComponent {
   constructor(props) {
@@ -33,7 +48,7 @@ class App extends PureComponent {
     switch (question.type) {
       case `artist`:
         return (
-          <GuessArtistScreen
+          <GuessArtistScreenWrapped
             question={question}
             submitHandler={userAnswerHandler}
             mistakes={mistakes}
@@ -42,7 +57,7 @@ class App extends PureComponent {
         );
       case `genre`:
         return (
-          <GuessGenreScreen
+          <GuessGenreScreenWrapped
             question={question}
             submitHandler={userAnswerHandler}
             mistakes={mistakes}

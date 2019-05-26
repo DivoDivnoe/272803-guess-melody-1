@@ -29,6 +29,7 @@ const mock = {
     ],
   },
   mistakes: 2,
+  renderAnswer: jest.fn(),
 };
 
 describe(`GuessArtistScreen component`, () => {
@@ -38,6 +39,7 @@ describe(`GuessArtistScreen component`, () => {
           question={mock.question}
           submitHandler={mock.submitHandler}
           mistakes={mock.mistakes}
+          renderAnswer={mock.renderAnswer}
         />
     );
 

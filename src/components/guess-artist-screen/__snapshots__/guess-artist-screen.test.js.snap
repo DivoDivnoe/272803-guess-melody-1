@@ -67,12 +67,6 @@ exports[`GuessArtistScreen component renders correctly 1`] = `
       <div
         className="wrong"
       />
-      <div
-        className="wrong"
-      />
-      <div
-        className="wrong"
-      />
     </div>
   </header>
   <section
@@ -83,21 +77,6 @@ exports[`GuessArtistScreen component renders correctly 1`] = `
     >
       Кто исполняет эту песню?
     </h2>
-    <div
-      className="game__track"
-    >
-      <button
-        className="track__button track__button--play"
-        disabled={true}
-        onClick={[Function]}
-        type="button"
-      />
-      <div
-        className="track__status"
-      >
-        <audio />
-      </div>
-    </div>
     <form
       className="game__artist"
       onChange={[Function]}

@@ -1,6 +1,12 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import GuessArtistScreen from './guess-artist-screen.jsx';
+import Enzyme, {mount} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import withPlaying from './with-playing';
+
+Enzyme.configure({adapter: new Adapter()});
+
+const MockComponent = () => <div />;
+const WithPlayingComponent = withPlaying(MockComponent);
 
 const mock = {
   submitHandler: jest.fn(),
@@ -25,24 +31,19 @@ const mock = {
       }
     ],
   },
-  mistakes: 1,
-  renderAnswer: jest.fn(),
+  mistakes: 2,
 };
 
-describe(`GuessArtistScreen component`, () => {
-  it(`renders correctly`, () => {
-    const tree = renderer.create(
-        <GuessArtistScreen
+describe(`component returned by withPlaying hoc`, () => {
+  it(`is rendered with correct isPlaying prop`, () => {
+    const screen = mount(
+        <WithPlayingComponent
           question={mock.question}
           submitHandler={mock.submitHandler}
           mistakes={mock.mistakes}
-          renderAnswer={mock.renderAnswer}
-        />,
-        {createNodeMock: (el) => {
-          return el;
-        }}
-    ).toJSON();
+        />
+    );
 
-    expect(tree).toMatchSnapshot();
+    expect(screen.state().isPlaying).toEqual(false);
   });
 });

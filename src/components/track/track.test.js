@@ -3,20 +3,23 @@ import renderer from 'react-test-renderer';
 import Track from './track.jsx';
 
 const mock = {
-  src: ``,
+  renderPlayer: jest.fn(),
   clickHandler: jest.fn(),
   isPlaying: false,
+  isLoading: true,
 };
 
 describe(`Track component`, () => {
   it(`renders correctly`, () => {
-    const {src, clickHandler, isPlaying} = mock;
+    const {renderPlayer, clickHandler, isPlaying, isLoading} = mock;
 
     const tree = renderer.create(
-        <Track src={src} clickHandler={clickHandler} isPlaying={isPlaying} />,
-        {createNodeMock: (el) => {
-          return el;
-        }}
+        <Track
+          isLoading={isLoading}
+          clickHandler={clickHandler}
+          renderPlayer={renderPlayer}
+          isPlaying={isPlaying}
+        />
     ).toJSON();
 
     expect(tree).toMatchSnapshot();
