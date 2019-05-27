@@ -1,6 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {App} from './app.jsx';
+import App from './app.jsx';
+
+const MockComponent = () => <div />;
+const renderScreen = () => <MockComponent />;
 
 const mocks = {
   questions: [
@@ -26,30 +29,18 @@ const mocks = {
       ],
     }
   ],
-  settings: {
-    gameTime: 10,
-    mistakesCount: 10,
-  },
   step: 1,
-  mistakes: 1,
-  userAnswerHandler: jest.fn(),
-  resetGame: jest.fn(),
-  checkGameStatus: jest.fn()
 };
 
 describe(`App component`, () => {
-  const {settings, questions, step, mistakes, userAnswerHandler, resetGame, checkGameStatus} = mocks;
+  const {questions, step} = mocks;
 
   it(`renders correctly`, () => {
     const element = renderer.create(
         <App
-          settings={settings}
           questions={questions}
           step={step}
-          mistakes={mistakes}
-          userAnswerHandler={userAnswerHandler}
-          resetGame={resetGame}
-          checkGameStatus={checkGameStatus}
+          renderScreen={renderScreen}
         />
     ).toJSON();
 
