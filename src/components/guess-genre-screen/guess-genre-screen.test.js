@@ -3,7 +3,6 @@ import renderer from 'react-test-renderer';
 import GuessGenreScreen from './guess-genre-screen.jsx';
 
 const mock = {
-  submitHandler: jest.fn(),
   question: {
     type: `genre`,
     genre: `rock`,
@@ -23,6 +22,10 @@ const mock = {
     ],
   },
   mistakes: 5,
+  changeAnswerHandler: jest.fn(),
+  renderAnswer: jest.fn(),
+  submitHandler: jest.fn(),
+  userAnswer: [false, false, false, true],
 };
 
 describe(`GuessGenreScreen component`, () => {
@@ -32,6 +35,9 @@ describe(`GuessGenreScreen component`, () => {
           question={mock.question}
           submitHandler={mock.submitHandler}
           mistakes={mock.mistakes}
+          changeAnswerHandler={mock.changeAnswerHandler}
+          renderAnswer={mock.renderAnswer}
+          userAnswer={mock.userAnswer}
         />,
         {createNodeMock: (el) => {
           return el;

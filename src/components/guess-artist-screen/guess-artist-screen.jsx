@@ -1,26 +1,17 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import Track from '../track/track.jsx';
 import MistakesView from '../mistakes-view/mistakes-view.jsx';
 
 class GuessArtistScreen extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isPlaying: false
-    };
+    this._handleAnswer = this._handleAnswer.bind(this);
   }
 
   render() {
-    const {question, submitHandler, mistakes} = this.props;
+    const {question, mistakes, renderAnswer} = this.props;
     const {answers, audio} = question;
-
-    const handleAnswer = (evt) => {
-      const chosenArtist = evt.target.value;
-
-      submitHandler(chosenArtist);
-    };
 
     return (
       <section className="game game--artist">
@@ -51,15 +42,9 @@ class GuessArtistScreen extends PureComponent {
 
         <section className="game__screen">
           <h2 className="game__title">Кто исполняет эту песню?</h2>
-          <Track
-            src={audio.src}
-            clickHandler={() => {
-              this.setState({isPlaying: !this.state.isPlaying});
-            }}
-            isPlaying={this.state.isPlaying}
-          />
+          {renderAnswer(audio)}
 
-          <form className="game__artist" onChange={handleAnswer}>
+          <form className="game__artist" onChange={this._handleAnswer}>
             {answers.map(({artist, picture}, index) => (
               <div className="artist" key={artist}>
                 <input
@@ -80,6 +65,12 @@ class GuessArtistScreen extends PureComponent {
       </section>
     );
   }
+
+  _handleAnswer(evt) {
+    const chosenArtist = evt.target.value;
+
+    this.props.submitHandler(chosenArtist);
+  }
 }
 
 GuessArtistScreen.propTypes = {
@@ -94,8 +85,9 @@ GuessArtistScreen.propTypes = {
       artist: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  submitHandler: PropTypes.func.isRequired,
   mistakes: PropTypes.number.isRequired,
+  submitHandler: PropTypes.func.isRequired,
+  renderAnswer: PropTypes.func.isRequired,
 };
 
 export default GuessArtistScreen;

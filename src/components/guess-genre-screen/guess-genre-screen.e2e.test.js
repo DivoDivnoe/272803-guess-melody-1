@@ -6,7 +6,6 @@ import GuessGenreScreen from './guess-genre-screen.jsx';
 Enzyme.configure({adapter: new Adapter()});
 
 const mock = {
-  submitHandler: jest.fn(),
   question: {
     type: `genre`,
     genre: `rock`,
@@ -26,15 +25,22 @@ const mock = {
     ],
   },
   mistakes: 10,
+  changeAnswerHandler: jest.fn(),
+  renderAnswer: jest.fn(),
+  submitHandler: jest.fn(),
+  userAnswer: [false, false, false, true],
 };
 
 describe(`GuessGenreScreen component`, () => {
-  it(`reacts correctly to clicking the artist image`, () => {
+  it(`reacts correctly to clicking submit button`, () => {
     const screen = shallow(
         <GuessGenreScreen
           question={mock.question}
           submitHandler={mock.submitHandler}
           mistakes={mock.mistakes}
+          changeAnswerHandler={mock.changeAnswerHandler}
+          renderAnswer={mock.renderAnswer}
+          userAnswer={mock.userAnswer}
         />
     );
 

@@ -1,22 +1,16 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import Track from '../track/track.jsx';
 import MistakesView from '../mistakes-view/mistakes-view.jsx';
 
 class GuessGenreScreen extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      currentTrack: null,
-      userAnswer: Array.from({length: props.question.answers.length}, () => false)
-    };
-
     this._handleAnswer = this._handleAnswer.bind(this);
   }
 
   render() {
-    const {question, mistakes} = this.props;
+    const {question, mistakes, changeAnswerHandler, renderAnswer} = this.props;
     const {answers, genre} = question;
 
     return (
@@ -51,14 +45,7 @@ class GuessGenreScreen extends PureComponent {
           <form className="game__tracks" onSubmit={this._handleAnswer}>
             {answers.map((answer, index) => (
               <div className="track" key={index}>
-                <Track
-                  src={answer.src}
-                  clickHandler={() => {
-                    this.setState({currentTrack: this.state.currentTrack === index ? null : index});
-                  }}
-                  isPlaying={this.state.currentTrack === index}
-                  index={index}
-                />
+                {renderAnswer(answer, index)}
                 <div className="game__answer">
                   <input
                     className="game__input visually-hidden"
@@ -66,12 +53,7 @@ class GuessGenreScreen extends PureComponent {
                     name="answer"
                     value={answer.genre}
                     id={`answer-${index}`}
-                    onChange={() => {
-                      const userAnswer = this.state.userAnswer.slice();
-                      userAnswer[index] = !userAnswer[index];
-
-                      this.setState({userAnswer});
-                    }}
+                    onChange={() => changeAnswerHandler(index)}
                   />
                   <label className="game__check" htmlFor={`answer-${index}`}>Отметить</label>
                 </div>
@@ -87,7 +69,7 @@ class GuessGenreScreen extends PureComponent {
   _handleAnswer(evt) {
     evt.preventDefault();
 
-    this.props.submitHandler(this.state.userAnswer);
+    this.props.submitHandler(this.props.userAnswer);
   }
 }
 
@@ -102,6 +84,9 @@ GuessGenreScreen.propTypes = {
     })).isRequired,
   }).isRequired,
   mistakes: PropTypes.number.isRequired,
+  changeAnswerHandler: PropTypes.func.isRequired,
+  userAnswer: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  renderAnswer: PropTypes.func.isRequired,
 };
 
 export default GuessGenreScreen;
