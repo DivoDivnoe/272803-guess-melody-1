@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import MistakesView from '../mistakes-view/mistakes-view.jsx';
+import mocks from '../../mocks/questions';
 
 class GuessGenreScreen extends PureComponent {
   constructor(props) {
@@ -77,10 +78,10 @@ GuessGenreScreen.propTypes = {
   submitHandler: PropTypes.func.isRequired,
   question: PropTypes.shape({
     type: PropTypes.oneOf([`genre`, `artist`]).isRequired,
-    genre: PropTypes.oneOf([`rock`, `jazz`, `pop`, `blues`, `indie`]),
+    genre: PropTypes.oneOf(mocks.genres),
     answers: PropTypes.arrayOf(PropTypes.shape({
       src: PropTypes.string.isRequired,
-      genre: PropTypes.oneOf([`rock`, `jazz`, `pop`, `blues`, `indie`]),
+      genre: PropTypes.oneOf(mocks.genres),
     })).isRequired,
   }).isRequired,
   mistakes: PropTypes.number.isRequired,

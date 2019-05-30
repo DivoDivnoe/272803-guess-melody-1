@@ -1,4 +1,6 @@
-import ActionCreator, {reducer, checkIsGameOver} from "./reducer";
+import MockAdapter from 'axios-mock-adapter';
+import ActionCreator, {reducer, checkIsGameOver, Operation} from "./reducer";
+import api from '../api';
 
 describe(`reducer returns right state with`, () => {
   it(`INCREMENT_STEP action`, () => {
@@ -254,5 +256,26 @@ describe(`checkIsGameOver function`, () => {
     const gameIsOver = checkIsGameOver(gameMistakes, numberOfQuestions, currentMistakes, currentStep);
 
     expect(gameIsOver).toBe(false);
+  });
+});
+
+describe(`loadQuestions function`, () => {
+  it(`should make a correct call to /questions`, () => {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const questionLoader = Operation.loadQuestions();
+
+    apiMock
+      .onGet(`/questions`)
+      .reply(200, [{fake: true}]);
+
+    questionLoader(dispatch)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: `LOAD_QUESTIONS`,
+          payload: [{fake: true}]
+        });
+      });
   });
 });

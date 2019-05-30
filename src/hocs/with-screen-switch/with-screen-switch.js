@@ -10,6 +10,7 @@ import withPlaying from '../with-playing/with-playing';
 import withUserAnswer from '../with-user-answer/with-user-answer.js';
 import withCurrentTrack from '../with-current-track/with-current-track.js';
 import withTransformProps from '../with-transform-props/with-transform-props.js';
+import mocks from '../../mocks/questions';
 
 const transformPlayerToAnswer = (props) => {
   const newProps = Object.assign({}, props, {
@@ -35,7 +36,7 @@ const withScreenSwitch = (Component) => {
     render() {
       const {questions, step, settings, checkGameStatus, mistakes} = this.props;
 
-      checkGameStatus(settings.mistakes, questions.length, mistakes, step);
+      checkGameStatus(settings.mistakesCount, questions.length, mistakes, step);
 
       return <Component
         questions={questions}
@@ -92,22 +93,22 @@ const withScreenSwitch = (Component) => {
     questions: PropTypes.arrayOf(
         PropTypes.oneOfType([
           PropTypes.shape({
-            type: PropTypes.oneOf([`genre`, `artist`]).isRequired,
+            type: PropTypes.oneOf([`artist`]).isRequired,
             answers: PropTypes.arrayOf(PropTypes.shape({
               picture: PropTypes.string.isRequired,
               artist: PropTypes.string.isRequired,
             })).isRequired,
-            audio: PropTypes.shape({
+            song: PropTypes.shape({
               src: PropTypes.string.isRequired,
               artist: PropTypes.string.isRequired,
             }).isRequired,
           }),
           PropTypes.shape({
-            type: PropTypes.oneOf([`genre`, `artist`]).isRequired,
-            genre: PropTypes.oneOf([`rock`, `jazz`, `pop`, `blues`, `indie`]),
+            type: PropTypes.oneOf([`genre`]).isRequired,
+            genre: PropTypes.oneOf(mocks.genres),
             answers: PropTypes.arrayOf(PropTypes.shape({
               src: PropTypes.string.isRequired,
-              genre: PropTypes.oneOf([`rock`, `jazz`, `pop`, `blues`, `indie`]),
+              genre: PropTypes.oneOf(mocks.genres),
             })).isRequired,
           })
         ])

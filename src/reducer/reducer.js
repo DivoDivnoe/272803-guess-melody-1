@@ -1,8 +1,20 @@
+import api from '../api';
+
 const initialState = {
   step: -1,
   mistakes: 0,
+  questions: [],
 };
 Object.freeze(initialState);
+
+
+export const Operation = {
+  loadQuestions: () => (dispatch) => {
+    return api.get(`/questions`)
+      .then((response) => dispatch(ActionCreator[`LOAD_QUESTIONS`](response.data)));
+  }
+};
+
 
 const ActionCreator = {
   INCREMENT_STEP: () => {
@@ -20,7 +32,7 @@ const ActionCreator = {
     } else {
       switch (question.type) {
         case `artist`:
-          isAnswerCorrect = question.audio.artist === userAnswer;
+          isAnswerCorrect = question.song.artist === userAnswer;
           break;
 
         case `genre`:
@@ -34,6 +46,13 @@ const ActionCreator = {
     return {
       type: `INCREMENT_MISTAKES`,
       payload: +!isAnswerCorrect,
+    };
+  },
+
+  LOAD_QUESTIONS: (questions) => {
+    return {
+      type: `LOAD_QUESTIONS`,
+      payload: questions,
     };
   },
 
@@ -54,6 +73,8 @@ export const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {mistakes: state.mistakes + payload});
     case `RESET_STATE`:
       return initialState;
+    case `LOAD_QUESTIONS`:
+      return Object.assign({}, state, {questions: payload});
   }
 
   return state;
