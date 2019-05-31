@@ -1,6 +1,4 @@
-import MockAdapter from 'axios-mock-adapter';
-import ActionCreator, {reducer, checkIsGameOver, Operation} from "./reducer";
-import api from '../api';
+import ActionCreator, {reducer, checkIsGameOver} from "./game";
 
 describe(`reducer returns right state with`, () => {
   it(`INCREMENT_STEP action`, () => {
@@ -60,7 +58,7 @@ describe(`ActionCreator INCREMENT_MISTAKES`, () => {
     it(`returns right action, when the answer is wrong`, () => {
       const question = {
         type: `artist`,
-        audio: {
+        song: {
           src: ``,
           artist: `Shura`,
         },
@@ -92,7 +90,7 @@ describe(`ActionCreator INCREMENT_MISTAKES`, () => {
     it(`returns right action, when the answer is right`, () => {
       const question = {
         type: `artist`,
-        audio: {
+        song: {
           src: ``,
           artist: `Kolya`,
         },
@@ -256,26 +254,5 @@ describe(`checkIsGameOver function`, () => {
     const gameIsOver = checkIsGameOver(gameMistakes, numberOfQuestions, currentMistakes, currentStep);
 
     expect(gameIsOver).toBe(false);
-  });
-});
-
-describe(`loadQuestions function`, () => {
-  it(`should make a correct call to /questions`, () => {
-    const apiMock = new MockAdapter(api);
-    const dispatch = jest.fn();
-    const questionLoader = Operation.loadQuestions();
-
-    apiMock
-      .onGet(`/questions`)
-      .reply(200, [{fake: true}]);
-
-    questionLoader(dispatch)
-      .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenNthCalledWith(1, {
-          type: `LOAD_QUESTIONS`,
-          payload: [{fake: true}]
-        });
-      });
   });
 });

@@ -6,14 +6,16 @@ import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import {compose} from 'recompose';
-import {reducer} from './reducer/reducer';
+import reducer from './reducer/index';
 import withScreenSwitch from './hocs/with-screen-switch/with-screen-switch';
-import {Operation} from './reducer/reducer';
-import {api} from './api';
+import {Operation} from './reducer/data/data';
+import createAPI from './api';
 
 const AppWrapped = withScreenSwitch(App);
 
 const {settings, questions} = mocks;
+const api = createAPI();
+
 const store = createStore(reducer,
     compose(
         applyMiddleware(thunk.withExtraArgument(api)),

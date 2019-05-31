@@ -1,20 +1,8 @@
-import api from '../api';
-
 const initialState = {
   step: -1,
   mistakes: 0,
-  questions: [],
 };
 Object.freeze(initialState);
-
-
-export const Operation = {
-  loadQuestions: () => (dispatch) => {
-    return api.get(`/questions`)
-      .then((response) => dispatch(ActionCreator[`LOAD_QUESTIONS`](response.data)));
-  }
-};
-
 
 const ActionCreator = {
   INCREMENT_STEP: () => {
@@ -49,13 +37,6 @@ const ActionCreator = {
     };
   },
 
-  LOAD_QUESTIONS: (questions) => {
-    return {
-      type: `LOAD_QUESTIONS`,
-      payload: questions,
-    };
-  },
-
   RESET_STATE: () => ({type: `RESET_STATE`}),
 };
 
@@ -73,8 +54,6 @@ export const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {mistakes: state.mistakes + payload});
     case `RESET_STATE`:
       return initialState;
-    case `LOAD_QUESTIONS`:
-      return Object.assign({}, state, {questions: payload});
   }
 
   return state;

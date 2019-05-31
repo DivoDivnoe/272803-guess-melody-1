@@ -5,12 +5,14 @@ import GuessArtistScreen from '../../components/guess-artist-screen/guess-artist
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {compose} from 'recompose';
-import ActionCreator, {checkIsGameOver} from '../../reducer/reducer';
+import ActionCreator, {checkIsGameOver} from '../../reducer/game/game';
 import withPlaying from '../with-playing/with-playing';
 import withUserAnswer from '../with-user-answer/with-user-answer.js';
 import withCurrentTrack from '../with-current-track/with-current-track.js';
 import withTransformProps from '../with-transform-props/with-transform-props.js';
 import mocks from '../../mocks/questions';
+import {getStep, getMistakes} from '../../reducer/game/selectors';
+import {getQuestions} from '../../reducer/data/selectors';
 
 const transformPlayerToAnswer = (props) => {
   const newProps = Object.assign({}, props, {
@@ -123,7 +125,11 @@ const withScreenSwitch = (Component) => {
   return WithScreenSwitch;
 };
 
-const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, state);
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  step: getStep(state),
+  questions: getQuestions(state),
+  mistakes: getMistakes(state),
+});
 const mapDispatchToProps = (dispatch) => {
   return {
     userAnswerHandler: (question, userAnswer) => {
