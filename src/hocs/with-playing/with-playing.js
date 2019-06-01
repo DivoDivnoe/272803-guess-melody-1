@@ -41,12 +41,12 @@ const withPlaying = (Component) => {
 
   WithPlaying.propTypes = {
     question: PropTypes.shape({
-      type: PropTypes.oneOf([`genre`, `artist`]).isRequired,
+      type: PropTypes.oneOf([`artist`]).isRequired,
       answers: PropTypes.arrayOf(PropTypes.shape({
         picture: PropTypes.string.isRequired,
         artist: PropTypes.string.isRequired,
       })).isRequired,
-      audio: PropTypes.shape({
+      song: PropTypes.shape({
         src: PropTypes.string.isRequired,
         artist: PropTypes.string.isRequired,
       }).isRequired,

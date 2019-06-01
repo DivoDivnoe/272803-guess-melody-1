@@ -20,7 +20,7 @@ const ActionCreator = {
     } else {
       switch (question.type) {
         case `artist`:
-          isAnswerCorrect = question.audio.artist === userAnswer;
+          isAnswerCorrect = question.song.artist === userAnswer;
           break;
 
         case `genre`:

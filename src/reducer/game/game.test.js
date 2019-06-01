@@ -1,4 +1,4 @@
-import ActionCreator, {reducer, checkIsGameOver} from "./reducer";
+import ActionCreator, {reducer, checkIsGameOver} from "./game";
 
 describe(`reducer returns right state with`, () => {
   it(`INCREMENT_STEP action`, () => {
@@ -58,7 +58,7 @@ describe(`ActionCreator INCREMENT_MISTAKES`, () => {
     it(`returns right action, when the answer is wrong`, () => {
       const question = {
         type: `artist`,
-        audio: {
+        song: {
           src: ``,
           artist: `Shura`,
         },
@@ -90,7 +90,7 @@ describe(`ActionCreator INCREMENT_MISTAKES`, () => {
     it(`returns right action, when the answer is right`, () => {
       const question = {
         type: `artist`,
-        audio: {
+        song: {
           src: ``,
           artist: `Kolya`,
         },

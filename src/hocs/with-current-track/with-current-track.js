@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Track from '../../components/track/track.jsx';
 import withAudio from '../../hocs/with-audio/with-audio';
+import mocks from '../../mocks/questions';
 
 const TrackWrapped = withAudio(Track);
 
@@ -45,10 +46,10 @@ const withCurrentTrack = (Component) => {
     submitHandler: PropTypes.func.isRequired,
     question: PropTypes.shape({
       type: PropTypes.oneOf([`genre`, `artist`]).isRequired,
-      genre: PropTypes.oneOf([`rock`, `jazz`, `pop`, `blues`, `indie`]),
+      genre: PropTypes.oneOf(mocks.genres),
       answers: PropTypes.arrayOf(PropTypes.shape({
         src: PropTypes.string.isRequired,
-        genre: PropTypes.oneOf([`rock`, `jazz`, `pop`, `blues`, `indie`]),
+        genre: PropTypes.oneOf(mocks.genres),
       })).isRequired,
     }).isRequired,
     mistakes: PropTypes.number.isRequired,

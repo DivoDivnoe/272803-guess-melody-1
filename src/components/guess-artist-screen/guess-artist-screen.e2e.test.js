@@ -9,7 +9,7 @@ const mock = {
   submitHandler: jest.fn(),
   question: {
     type: `artist`,
-    audio: {
+    song: {
       src: ``,
       artist: `Bugs Bunny`,
     },

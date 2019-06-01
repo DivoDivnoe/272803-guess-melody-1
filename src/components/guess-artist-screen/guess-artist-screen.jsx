@@ -11,7 +11,7 @@ class GuessArtistScreen extends PureComponent {
 
   render() {
     const {question, mistakes, renderAnswer} = this.props;
-    const {answers, audio} = question;
+    const {answers, song} = question;
 
     return (
       <section className="game game--artist">
@@ -42,7 +42,7 @@ class GuessArtistScreen extends PureComponent {
 
         <section className="game__screen">
           <h2 className="game__title">Кто исполняет эту песню?</h2>
-          {renderAnswer(audio)}
+          {renderAnswer(song)}
 
           <form className="game__artist" onChange={this._handleAnswer}>
             {answers.map(({artist, picture}, index) => (
@@ -75,12 +75,12 @@ class GuessArtistScreen extends PureComponent {
 
 GuessArtistScreen.propTypes = {
   question: PropTypes.shape({
-    type: PropTypes.oneOf([`genre`, `artist`]).isRequired,
+    type: PropTypes.oneOf([`artist`]).isRequired,
     answers: PropTypes.arrayOf(PropTypes.shape({
       picture: PropTypes.string.isRequired,
       artist: PropTypes.string.isRequired,
     })).isRequired,
-    audio: PropTypes.shape({
+    song: PropTypes.shape({
       src: PropTypes.string.isRequired,
       artist: PropTypes.string.isRequired,
     }).isRequired,

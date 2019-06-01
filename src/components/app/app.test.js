@@ -9,7 +9,7 @@ const mocks = {
   questions: [
     {
       type: `artist`,
-      audio: {
+      song: {
         src: ``,
         artist: `Kotan Vasily`,
       },
