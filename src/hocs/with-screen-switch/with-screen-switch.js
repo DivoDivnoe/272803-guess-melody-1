@@ -5,7 +5,7 @@ import GuessArtistScreen from '../../components/guess-artist-screen/guess-artist
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {compose} from 'recompose';
-import ActionCreator, {checkIsGameOver} from '../../reducer/game/game';
+import ActionCreator from '../../reducer/game/game';
 import withPlaying from '../with-playing/with-playing';
 import withUserAnswer from '../with-user-answer/with-user-answer.js';
 import withCurrentTrack from '../with-current-track/with-current-track.js';
@@ -13,6 +13,11 @@ import withTransformProps from '../with-transform-props/with-transform-props.js'
 import mocks from '../../mocks/questions';
 import {getStep, getMistakes} from '../../reducer/game/selectors';
 import {getQuestions} from '../../reducer/data/selectors';
+import WinScreen from '../../components/win-screen/win-screen.jsx';
+import LossScreen from '../../components/loss-screen/loss-screen.jsx';
+import AuthorizationScreen from '../../components/authorization-screen/authorization-screen.jsx';
+import {getAuthorizationRequired, getUserData} from '../../reducer/user/selectors';
+import UserActionCreator, {Operation} from '../../reducer/user/user';
 
 const transformPlayerToAnswer = (props) => {
   const newProps = Object.assign({}, props, {
@@ -36,9 +41,7 @@ const withScreenSwitch = (Component) => {
     }
 
     render() {
-      const {questions, step, settings, checkGameStatus, mistakes} = this.props;
-
-      checkGameStatus(settings.mistakesCount, questions.length, mistakes, step);
+      const {questions, step} = this.props;
 
       return <Component
         questions={questions}
@@ -47,13 +50,37 @@ const withScreenSwitch = (Component) => {
       />;
     }
 
-    _getScreen(question) {
-      const {settings, mistakes} = this.props;
+    _getScreen() {
+      const {
+        settings,
+        mistakes,
+        step,
+        questions,
+        resetGame,
+        isAuthorizationRequired,
+        changeAuthStatus,
+        userData,
+        authUserHandler
+      } = this.props;
+      const question = questions[step];
 
-      if (!question) {
-        return (
-          <WelcomeScreen settings={settings} clickHandler={this._onUserAnswer} />
-        );
+      if (mistakes >= settings.mistakesCount) {
+        return <LossScreen restart={resetGame} />;
+      } else if (step >= questions.length) {
+        changeAuthStatus(true);
+        if (isAuthorizationRequired && !userData) {
+          return (
+            <AuthorizationScreen
+              mistakes={mistakes}
+              authUserHandler={authUserHandler}
+              restart={resetGame}
+            />
+          );
+        }
+
+        return <WinScreen mistakes={mistakes} restart={resetGame} />;
+      } else if (step < 0) {
+        return <WelcomeScreen settings={settings} clickHandler={this._onUserAnswer} />;
       }
 
       switch (question.type) {
@@ -119,7 +146,13 @@ const withScreenSwitch = (Component) => {
     mistakes: PropTypes.number.isRequired,
     userAnswerHandler: PropTypes.func.isRequired,
     resetGame: PropTypes.func.isRequired,
-    checkGameStatus: PropTypes.func.isRequired,
+    isAuthorizationRequired: PropTypes.bool.isRequired,
+    changeAuthStatus: PropTypes.func.isRequired,
+    authUserHandler: PropTypes.func.isRequired,
+    userData: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      email: PropTypes.string.isRequired,
+    }),
   };
 
   return WithScreenSwitch;
@@ -129,6 +162,8 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   step: getStep(state),
   questions: getQuestions(state),
   mistakes: getMistakes(state),
+  isAuthorizationRequired: getAuthorizationRequired(state),
+  userData: getUserData(state),
 });
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -136,10 +171,11 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(ActionCreator[`INCREMENT_STEP`]());
       dispatch(ActionCreator[`INCREMENT_MISTAKES`](question, userAnswer));
     },
-    checkGameStatus: (gameMistakes, numberOfquestions, currentMistakes, currentStep) => {
-      if (checkIsGameOver(gameMistakes, numberOfquestions, currentMistakes, currentStep)) {
-        dispatch(ActionCreator[`RESET_STATE`]());
-      }
+    changeAuthStatus: (status) => {
+      dispatch(UserActionCreator[`REQUIRED_AUTHORIZATION`](status));
+    },
+    authUserHandler: (data) => {
+      dispatch(Operation.setUserData(data));
     },
     resetGame: () => {
       dispatch(ActionCreator[`RESET_STATE`]());

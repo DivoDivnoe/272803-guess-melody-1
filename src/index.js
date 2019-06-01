@@ -14,7 +14,7 @@ import createAPI from './api';
 const AppWrapped = withScreenSwitch(App);
 
 const {settings, questions} = mocks;
-const api = createAPI();
+const api = createAPI((...args) => store.dispatch(...args));
 
 const store = createStore(reducer,
     compose(

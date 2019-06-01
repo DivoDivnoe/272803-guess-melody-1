@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import mocks from '../../mocks/questions';
 
 const App = (props) => {
-  const {questions, step, renderScreen} = props;
+  const {renderScreen} = props;
 
-  return renderScreen(questions[step]);
+  return renderScreen();
 };
 
 App.propTypes = {
