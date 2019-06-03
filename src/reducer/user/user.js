@@ -6,9 +6,13 @@ const initialState = {
 Object.freeze(initialState);
 
 export const Operation = {
-  setUserData: (data) => (dispatch, _getState, api) => {
+  setUserData: (data, callback) => (dispatch, _getState, api) => {
     return api.post(`/login`, data)
-      .then((response) => dispatch(ActionCreator[`SET_USER_DATA`](response.data)));
+      .then((response) => {
+        dispatch(ActionCreator[`SET_USER_DATA`](response.data));
+
+        callback();
+      });
   }
 };
 

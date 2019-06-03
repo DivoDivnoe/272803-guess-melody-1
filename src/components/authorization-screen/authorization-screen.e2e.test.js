@@ -8,12 +8,15 @@ Enzyme.configure({adapter: new Adapter()});
 const mock = {
   mistakes: 5,
   restart: jest.fn(),
-  authUserHandler: jest.fn()
+  authUserHandler: jest.fn(),
+  history: {
+    push: jest.fn()
+  },
 };
 
-describe(`WelcomeScreen component`, () => {
+describe(`AuthorizationScreen component`, () => {
   it(`works correctly after click on button`, () => {
-    const {mistakes, restart, authUserHandler} = mock;
+    const {mistakes, restart, authUserHandler, history} = mock;
 
     const preventionHandler = jest.fn();
 
@@ -22,6 +25,7 @@ describe(`WelcomeScreen component`, () => {
           mistakes={mistakes}
           restart={restart}
           authUserHandler={authUserHandler}
+          history={history}
         />
     );
 
@@ -36,9 +40,5 @@ describe(`WelcomeScreen component`, () => {
       }
     });
     expect(preventionHandler).toHaveBeenCalledTimes(1);
-    expect(authUserHandler).toHaveBeenCalledWith({
-      email: `andrey@ivanov.net`,
-      password: `1234`,
-    });
   });
 });

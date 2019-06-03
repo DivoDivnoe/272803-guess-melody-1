@@ -31,12 +31,12 @@ exports[`WinScreen component renders correctly 1`] = `
   >
     Вы заняли 2 место из 10. Это лучше чем у 80% игроков
   </p>
-  <button
+  <a
     className="replay"
-    onClick={[MockFunction]}
-    type="button"
+    href="/"
+    onClick={[Function]}
   >
     Сыграть ещё раз
-  </button>
+  </a>
 </section>
 `;

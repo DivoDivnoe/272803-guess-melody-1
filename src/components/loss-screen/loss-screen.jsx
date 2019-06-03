@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 const LossScreen = (props) => {
   const {restart} = props;
@@ -13,7 +14,7 @@ const LossScreen = (props) => {
       <p className="result__total result__total--fail">
         У вас закончились все попытки. Ничего, повезёт в следующий раз!
       </p>
-      <button className="replay" type="button" onClick={restart}>Попробовать ещё раз</button>
+      <Link className="replay" to="/" onClick={restart}>Попробовать ещё раз</Link>
     </section>
   );
 };

@@ -3,6 +3,7 @@ import WelcomeScreen from '../../components/welcome-screen/welcome-screen.jsx';
 import GuessGenreScreen from '../../components/guess-genre-screen/guess-genre-screen.jsx';
 import GuessArtistScreen from '../../components/guess-artist-screen/guess-artist-screen.jsx';
 import PropTypes from 'prop-types';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {compose} from 'recompose';
 import ActionCreator from '../../reducer/game/game';
@@ -18,6 +19,7 @@ import LossScreen from '../../components/loss-screen/loss-screen.jsx';
 import AuthorizationScreen from '../../components/authorization-screen/authorization-screen.jsx';
 import {getAuthorizationRequired, getUserData} from '../../reducer/user/selectors';
 import UserActionCreator, {Operation} from '../../reducer/user/user';
+import withPrivateRoute from '../with-private-route/with-private-route';
 
 const transformPlayerToAnswer = (props) => {
   const newProps = Object.assign({}, props, {
@@ -30,6 +32,7 @@ const transformPlayerToAnswer = (props) => {
 
 const GuessArtistScreenWrapped = withPlaying(withTransformProps(transformPlayerToAnswer)(GuessArtistScreen));
 const GuessGenreScreenWrapped = withUserAnswer(withCurrentTrack(withTransformProps(transformPlayerToAnswer)(GuessGenreScreen)));
+const PrivateRoute = withPrivateRoute(Route);
 
 const withScreenSwitch = (Component) => {
   class WithScreenSwitch extends PureComponent {
@@ -41,13 +44,46 @@ const withScreenSwitch = (Component) => {
     }
 
     render() {
-      const {questions, step} = this.props;
+      const {
+        questions,
+        step,
+        mistakes,
+        authUserHandler,
+        resetGame,
+        userData
+      } = this.props;
 
-      return <Component
-        questions={questions}
-        step={step}
-        renderScreen={this._getScreen}
-      />;
+      return (
+        <Switch>
+          <Route path="/" exact render={() => (
+            <Component
+              questions={questions}
+              step={step}
+              renderScreen={this._getScreen}
+            />
+          )} />
+          <PrivateRoute path="/win" userData={userData} render={() => (
+            <WinScreen
+              mistakes={mistakes}
+              restart={resetGame}
+              userData={userData}
+            />
+          )} />
+          <Route path="/loss" render={() => (
+            <LossScreen
+              restart={resetGame}
+            />
+          )} />
+          <Route path="/login" render={({history}) => (
+            <AuthorizationScreen
+              mistakes={mistakes}
+              authUserHandler={authUserHandler}
+              restart={resetGame}
+              history={history}
+            />
+          )} />
+        </Switch>
+      );
     }
 
     _getScreen() {
@@ -56,29 +92,13 @@ const withScreenSwitch = (Component) => {
         mistakes,
         step,
         questions,
-        resetGame,
-        isAuthorizationRequired,
-        changeAuthStatus,
-        userData,
-        authUserHandler
       } = this.props;
       const question = questions[step];
 
       if (mistakes >= settings.mistakesCount) {
-        return <LossScreen restart={resetGame} />;
-      } else if (step >= questions.length) {
-        changeAuthStatus(true);
-        if (isAuthorizationRequired && !userData) {
-          return (
-            <AuthorizationScreen
-              mistakes={mistakes}
-              authUserHandler={authUserHandler}
-              restart={resetGame}
-            />
-          );
-        }
-
-        return <WinScreen mistakes={mistakes} restart={resetGame} />;
+        return <Redirect to="/loss" />;
+      } else if (step >= 1) {
+        return <Redirect to="/win" />;
       } else if (step < 0) {
         return <WelcomeScreen settings={settings} clickHandler={this._onUserAnswer} />;
       }
@@ -174,8 +194,8 @@ const mapDispatchToProps = (dispatch) => {
     changeAuthStatus: (status) => {
       dispatch(UserActionCreator[`REQUIRED_AUTHORIZATION`](status));
     },
-    authUserHandler: (data) => {
-      dispatch(Operation.setUserData(data));
+    authUserHandler: (data, callback) => {
+      dispatch(Operation.setUserData(data, callback));
     },
     resetGame: () => {
       dispatch(ActionCreator[`RESET_STATE`]());

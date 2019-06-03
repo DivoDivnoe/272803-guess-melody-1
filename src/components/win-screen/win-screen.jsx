@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 const WinScreen = (props) => {
   const {mistakes, restart} = props;
@@ -14,7 +15,7 @@ const WinScreen = (props) => {
         За 3 минуты и 25 секунд вы набрали 12 баллов (8 быстрых), совершив {mistakes} ошибки
       </p>
       <p className="result__text">Вы заняли 2 место из 10. Это лучше чем у 80% игроков</p>
-      <button className="replay" type="button" onClick={restart}>Сыграть ещё раз</button>
+      <Link className="replay" to="/" onClick={restart}>Сыграть ещё раз</Link>
     </section>
   );
 };

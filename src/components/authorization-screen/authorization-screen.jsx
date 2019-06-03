@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
-const AuthorizationScreen = ({mistakes, authUserHandler, restart}) => {
+const AuthorizationScreen = (props) => {
+  const {mistakes, authUserHandler, restart} = props;
+
   const submitHandler = (evt) => {
     evt.preventDefault();
 
@@ -10,7 +13,7 @@ const AuthorizationScreen = ({mistakes, authUserHandler, restart}) => {
       password: evt.target.password.value,
     };
 
-    return authUserHandler(data);
+    return authUserHandler(data, () => props.history.push(`/win`));
   };
 
   return (
@@ -37,7 +40,7 @@ const AuthorizationScreen = ({mistakes, authUserHandler, restart}) => {
         </p>
         <button className="login__button button" type="submit">Войти</button>
       </form>
-      <button className="replay" type="button" onClick={restart}>Сыграть ещё раз</button>
+      <Link className="replay" to="/" onClick={restart}>Сыграть ещё раз</Link>
     </section>
   );
 };
@@ -46,6 +49,7 @@ AuthorizationScreen.propTypes = {
   mistakes: PropTypes.number.isRequired,
   restart: PropTypes.func.isRequired,
   authUserHandler: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default AuthorizationScreen;

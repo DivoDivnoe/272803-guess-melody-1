@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter} from 'react-router-dom';
 import App from './components/app/app.jsx';
 import mocks from './mocks/questions';
 import {createStore, applyMiddleware} from 'redux';
@@ -14,7 +15,7 @@ import createAPI from './api';
 const AppWrapped = withScreenSwitch(App);
 
 const {settings, questions} = mocks;
-const api = createAPI((...args) => store.dispatch(...args));
+const api = createAPI();
 
 const store = createStore(reducer,
     compose(
@@ -30,7 +31,9 @@ const init = () => {
 
   ReactDOM.render(
       <Provider store={store}>
-        <AppWrapped settings={settings} questions={questions} />
+        <BrowserRouter>
+          <AppWrapped settings={settings} questions={questions} />
+        </BrowserRouter>
       </Provider>,
       main
   );

@@ -1,7 +1,8 @@
 import axios from 'axios';
-import ActionCreator from './reducer/user/user';
 
-const createAPI = (dispatch) => {
+const FORBIDDEN_STATUS_CODE = 403;
+
+const createAPI = () => {
   const api = axios.create({
     baseURL: `https://es31-server.appspot.com/guess-melody`,
     timeout: 5000,
@@ -10,8 +11,8 @@ const createAPI = (dispatch) => {
 
   const onSuccess = (response) => response;
   const onFail = (err) => {
-    if (err.response.status === 403) {
-      dispatch(ActionCreator[`REQUIRED_AUTHORIZATION`](true));
+    if (err.response.status === FORBIDDEN_STATUS_CODE) {
+      history.pushState(null, null, `/login`);
     }
 
     return err;
